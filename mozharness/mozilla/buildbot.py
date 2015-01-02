@@ -37,8 +37,6 @@ TBPL_STATUS_DICT = {
     TBPL_EXCEPTION: ERROR,
     TBPL_RETRY: WARNING,
 }
-# List with worst status closest to ...[0]
-TBPL_STATUS_DICT_WORST = [TBPL_RETRY, TBPL_EXCEPTION, TBPL_FAILURE, TBPL_WARNING, TBPL_SUCCESS]
 EXIT_STATUS_DICT = {
     TBPL_SUCCESS: 0,
     TBPL_WARNING: 1,
@@ -88,7 +86,7 @@ class BuildbotMixin(object):
                         tbpl_status = TBPL_FAILURE
             if not level:
                 level = TBPL_STATUS_DICT[tbpl_status]
-            self.worst_buildbot_status = self.worst_level(tbpl_status, self.worst_buildbot_status, TBPL_STATUS_DICT_WORST)
+            self.worst_buildbot_status = self.worst_level(tbpl_status, self.worst_buildbot_status, TBPL_WORST_LEVEL_TUPLE)
             if self.worst_buildbot_status != tbpl_status:
                 self.info("Current worst status %s is worse; keeping it." % self.worst_buildbot_status)
             self.add_summary("# TBPL %s #" % self.worst_buildbot_status, level=level)
